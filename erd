@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Миний Дэлгүүр</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f3f3f3;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .product {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+    .product img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .product h3 {
+      margin: 10px 0 5px;
+    }
+    .product p {
+      margin: 5px 0;
+    }
+    .product button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cart {
+      background-color: white;
+      padding: 15px;
+      margin: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .cart h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Миний Онлайн Дэлгүүр</h1>
+  <p>Захиалаад хүргүүл!</p>
+</header>
+
+<div class="container" id="product-list"></div>
+
+<div class="cart" id="cart">
+  <h2>Сагс</h2>
+  <ul id="cart-items"></ul>
+  <p><strong>Нийт үнэ:</strong> <span id="total">0₮</span></p>
+</div>
+
+<script>
+  const products = [
+    { id: 1, name: 'Ноосон цамц', price: 35000, img: 'https://via.placeholder.com/200x150?text=Ноосон+цамц' },
+    { id: 2, name: 'Гар хийцийн цүнх', price: 45000, img: 'https://via.placeholder.com/200x150?text=Цүнх' },
+    { id: 3, name: 'Ээмэг', price: 15000, img: 'https://via.placeholder.com/200x150?text=Ээмэг' },
+    { id: 4, name: 'Нарны шил', price: 25000, img: 'https://via.placeholder.com/200x150?text=Нарны+шил' },
+    { id: 5, name: 'Спорт гутал', price: 75000, img: 'https://via.placeholder.com/200x150?text=Гутал' },
+    { id: 6, name: 'Арьсан түрийвч', price: 30000, img: 'https://via.placeholder.com/200x150?text=Түрийвч' }
+  ];
+
+  const productList = document.getElementById('product-list');
+  const cartItems = document.getElementById('cart-items');
+  const totalEl = document.getElementById('total');
+  let cart = [];
+
+  function renderProducts() {
+    products.forEach(product => {
+      const div = document.createElement('div');
+      div.className = 'product';
+      div.innerHTML = `
+        <img src="${product.img}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>${product.price}₮</p>
+        <button onclick="addToCart(${product.id})">Сагсанд хийх</button>
+      `;
+      productList.appendChild(div);
+    });
+  }
+
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    cart.push(product);
+    updateCart();
+  }
+
+  function updateCart() {
+    cartItems.innerHTML = '';
+    let total = 0;
+    cart.forEach(item => {
+      total += item.price;
+      const li = document.createElement('li');
+      li.textContent = `${item.name} - ${item.price}₮`;
+      cartItems.appendChild(li);
+    });
+    totalEl.textContent = total + '₮';
+  }
+
+  renderProducts();
+</script>
+
+</body>
+</html>
